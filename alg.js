@@ -1,8 +1,5 @@
 let array = [
-/*
-pret,tr,poc,kra,rez
-*/
-/*
+  /*
   [[], 3], //A 0 
   [[0], 2], //B 1
   [[0], 1], //C 2
@@ -12,7 +9,7 @@ pret,tr,poc,kra,rez
   [[3, 5], 1], //G 6
 */
 
-  [[], 0], //A 0 
+  [[], 0], //A 0
   [[0], 3], //B 1
   [[0], 4], //C 2
   [[2], 5], //D 3
@@ -22,13 +19,13 @@ pret,tr,poc,kra,rez
   [[2], 5], //H 7
   [[7], 6], //I 8
   [[5, 6, 8], 10], //J 9
-  [[5, 6, 8], 3], //K 10 
+  [[5, 6, 8], 3], //K 10
   [[5, 6, 8], 7], //L 11
   [[7], 4], //M 12
   [[11, 12], 5], //N 13
-  [[4, 9], 3], //O 14 
+  [[4, 9], 3], //O 14
   [[10, 13, 14], 0], //P 15
-  
+
   /*
 
   [[], 2], //A 0 
@@ -46,66 +43,48 @@ function init() {
   });
 }
 
-function calculateRP_All(){
-  return new Promise((resolve, reject ) => {
+function calculateRP_All() {
+  return new Promise((resolve, reject) => {
     for (var i = 0; i < array.length; i++) {
-      array[i][2] = calculateRP(i)
+      array[i][2] = calculateRP(i);
     }
     resolve(true);
-  })
-}
-
-/*
-function calculateRP_All(){
-  return new Promise((resolve, reject ) => {
-    array[array.length-1][2] = calculateRP(array.length-1)
-    resolve(true);
-  })
-}
-
-
-
-*/
-function calculateRP(id) {
-  let arr = []
-  array[id][0].forEach((item) => {
-    arr.push(calculateRP(item)+array[item][1])
   });
-  if(Math.max(...arr) != -Infinity){
+}
+
+function calculateRP(id) {
+  let arr = [];
+  array[id][0].forEach((item) => {
+    arr.push(calculateRP(item) + array[item][1]);
+  });
+  if (Math.max(...arr) != -Infinity) {
     return Math.max(...arr);
   }
   return 0;
 }
 
-function calculateRZ_All(){
+function calculateRZ_All() {
   return new Promise((resolve, reject) => {
-    array.forEach(item => {
+    array.forEach((item) => {
       item[3] = item[2] + item[1];
-    })
+    });
     resolve(true);
-  })
+  });
 }
 
-function calculateKZ_All(){
+function calculateKZ_All() {
   return new Promise((resolve, reject) => {
     array[0][4] = calculateKZ(0);
     resolve(true);
-  })
+  });
 }
 
 function calculateKZ(id) {
   let outs = [];
   let arr = array.filter((elem) => elem[0].includes(id));
-  arr.forEach(item => 
-    outs.push(
-      calculateKZ(array.indexOf(item))
-      -item[1])
-  );
-  if(id == 8)
-  console.log(String.fromCharCode(id+65), outs);
+  arr.forEach((item) => outs.push(calculateKZ(array.indexOf(item)) - item[1]));
   let min = Math.min(...outs);
   if (min != Infinity) {
-   // max - od min-a vr
     array[id][4] = min;
     return array[id][4];
   } else {
@@ -114,78 +93,55 @@ function calculateKZ(id) {
   }
 }
 
-function calculateKP_All(){
+function calculateKP_All() {
   return new Promise((resolve, reject) => {
-    array.forEach(item => item[5] = item[4]-item[1]);
+    array.forEach((item) => (item[5] = item[4] - item[1]));
     resolve(true);
-  })
+  });
 }
-function calculateST_All(){
+function calculateST_All() {
   return new Promise((resolve, reject) => {
-    array.forEach(item => item[6] = item[4]-item[3]);
+    array.forEach((item) => (item[6] = item[4] - item[3]));
     resolve(true);
-  })
+  });
 }
 
-/*
-function calculateUpper() {
-  for (var i = array.length - 1; i >= 0; i--) {
-    let outs = [];
-    let arr = array.filter((elem) => elem[0].includes(i));
-    arr.forEach((item) => outs.push(item[3]));
-
-    let min = Math.min(...outs);
-    if (min != Infinity) {
-      array[i][5] = min - array[i][1];
-    } else {
-      array[i][5] = array[i][2];
-    }
-  }
-  calculateSpare();
-}
-function calculateSpare() {
-  array.forEach((item) => {
-    item[3] = item[2] + item[1]
-    item[4] = item[5] + item[1]
-    item[6] = item[4] - item[3];
-  });
-  printCritical();
-}
-function printCritical() {
-  let index = 0;
-  array.forEach((item) => {
-    if (item[6] == 0) console.log(index);
-    index++;
-  });
-  array.forEach((i) => console.log(i[1],i[2],i[3],i[4],i[5],i[6]));
-  //array.forEach((i) => console.log(i[2]));
-}
-*/
 init();
-function start (){calculateRP_All()
-.then(calculateRZ_All())
-.then(calculateKZ_All())
-.then(calculateKP_All())
-.then(calculateST_All())
-.then(() => 
-  array.forEach(
-    (i) => console.log(String.fromCharCode(array.indexOf(i)+65),i[1],i[2],i[3],i[4],i[5],i[6]))
-).then(()=>{
-  let out = "Kritični put:<br/>";
-  let index = 0;
-  let first = true;
-  array.forEach(item => {
-    if(item[6] == 0){
-      if(first){
-        out += String.fromCharCode(index+65);
-        first = false;
-      }
-      else {
-        out += " -> " + String.fromCharCode(index+65);
-      }
-    }
-      
-    index++;
-  })
-  document.getElementById("results").innerHTML = out;
-})};
+function start() {
+  calculateRP_All()
+    .then(calculateRZ_All())
+    .then(calculateKZ_All())
+    .then(calculateKP_All())
+    .then(calculateST_All())
+    .then(() =>
+      array.forEach((i) =>
+        console.log(
+          String.fromCharCode(array.indexOf(i) + 65),
+          i[1],
+          i[2],
+          i[3],
+          i[4],
+          i[5],
+          i[6]
+        )
+      )
+    )
+    .then(() => {
+      let out = "Kritični put:<br/>";
+      let index = 0;
+      let first = true;
+      array.forEach((item) => {
+        if (item[6] == 0) {
+          if (first) {
+            out += String.fromCharCode(index + 65);
+            first = false;
+          } else {
+            out += " -> " + String.fromCharCode(index + 65);
+          }
+        }
+
+        index++;
+      });
+      document.getElementById("results").innerHTML = out;
+    });
+}
