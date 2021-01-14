@@ -128,10 +128,12 @@ function start() {
     )
     .then(() => {
       let out = "Kritični put:<br/>";
+      let length = 0;
       let index = 0;
       let first = true;
       array.forEach((item) => {
         if (item[6] == 0) {
+          length += item[1];
           if (first) {
             out += String.fromCharCode(index + 65);
             first = false;
@@ -142,6 +144,7 @@ function start() {
 
         index++;
       });
+      out += "<br/><br/>Duljina kritičnog puta: " + length.toString();
       document.getElementById("results").innerHTML = out;
     });
 }
