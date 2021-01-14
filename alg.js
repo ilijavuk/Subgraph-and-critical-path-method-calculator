@@ -108,6 +108,7 @@ function calculateST_All() {
 
 init();
 function start() {
+  console.clear();
   calculateRP_All()
     .then(calculateRZ_All())
     .then(calculateKZ_All())
