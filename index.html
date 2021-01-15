@@ -2,10 +2,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <style>
+      .table_shown{
+        transform: scaleY(1)!important;
+        max-height: 100%!important;
+        transition-timing-function: ease-out;
+      }
+      #table{
+        padding-left: 3em;
+        transition: all ease-in 0.5s;
+        transform-origin: top;
+        text-align: justify;
+        text-justify:inter-word;
+      }
+      .padded{
+        padding-left: 3em;
+      }
+    </style>
   </head>
   <body>
     <p id="results" style="font-size: 24px;"></p>
-    <button onClick="start()" style="font-size: 24px;">Start</button>
+    <button id="start" style="font-size: 24px;">Start</button>
+    <button id="start2" style="font-size: 24px;">Start both</button>
+    <button onClick="showTable()" style="font-size: 24px;">Click za prikaz RP/KP</button>
+    <p id="table" style="font-size: 24px; transform: scaleY(0); max-height:0;">Empty</p>
+    <p id="comparison" style="font-size: 24px;">Usporedba grafova:</p>
 
     <script src="alg.js"></script>
   </body>
